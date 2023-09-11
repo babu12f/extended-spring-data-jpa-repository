@@ -1,0 +1,1 @@
+## An Extended Spring data JPA Repository which provide some useful method
