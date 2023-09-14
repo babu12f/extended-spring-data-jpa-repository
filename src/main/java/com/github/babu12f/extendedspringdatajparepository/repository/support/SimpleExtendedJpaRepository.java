@@ -1,7 +1,9 @@
 package com.github.babu12f.extendedspringdatajparepository.repository.support;
 
 import com.github.babu12f.extendedspringdatajparepository.repository.ExtendedJpaRepository;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.EntityManager;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 
@@ -23,5 +25,15 @@ public class SimpleExtendedJpaRepository<T, ID extends Serializable> extends Sim
     @Deprecated
     public List<T> test() {
         return findAll();
+    }
+
+    @Override
+    public long countDomainData() {
+        return this.countDomainData(null);
+    }
+
+    @Override
+    public long countDomainData(@Nullable Specification<T> spec) {
+        return count(spec);
     }
 }
