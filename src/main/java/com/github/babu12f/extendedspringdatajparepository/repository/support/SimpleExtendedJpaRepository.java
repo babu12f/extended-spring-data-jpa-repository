@@ -2,6 +2,7 @@ package com.github.babu12f.extendedspringdatajparepository.repository.support;
 
 import com.github.babu12f.extendedspringdatajparepository.repository.ExtendedJpaRepository;
 import com.github.babu12f.extendedspringdatajparepository.repository.config.EnableExtendedRepositorySoftDelete;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
@@ -72,5 +73,15 @@ public class SimpleExtendedJpaRepository<T, ID extends Serializable> extends Sim
 
             return query.where(cb.and(predicates.toArray(new Predicate[0]))).getGroupRestriction();
         };
+    }
+
+    @Override
+    public long countDomainData() {
+        return this.countDomainData(null);
+    }
+
+    @Override
+    public long countDomainData(@Nullable Specification<T> spec) {
+        return count(spec);
     }
 }
