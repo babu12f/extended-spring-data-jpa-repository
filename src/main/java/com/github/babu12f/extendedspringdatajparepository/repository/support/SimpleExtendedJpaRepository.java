@@ -62,8 +62,11 @@ public class SimpleExtendedJpaRepository<T, ID extends Serializable> extends Sim
     }
 
     @Override
-    public long countDomainData(@Nullable Specification<T> spec) {
-        return count(spec);
+    public long countDomainData(@Nullable Specification<T> originSpecification) {
+        Specification<T> specification;
+        specification = isEnableSoftDelete ? this.addSoftDeleteCondition(originSpecification) : null;
+
+        return count(specification);
     }
 
     private Specification<T> addSoftDeleteCondition(Specification<T> originSpecification) {
