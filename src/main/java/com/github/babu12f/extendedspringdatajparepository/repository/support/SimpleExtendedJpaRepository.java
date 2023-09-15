@@ -49,11 +49,21 @@ public class SimpleExtendedJpaRepository<T, ID extends Serializable> extends Sim
     }
 
     @Override
-    public List<T> readAllDomainData(Specification<T> originSpecification) {
+    public List<T> readAllDomainData(@Nullable Specification<T> originSpecification) {
         Specification<T> specification;
         specification = isEnableSoftDelete ? this.addSoftDeleteCondition(originSpecification) : null;
 
         return specification != null ? findAll(specification) : findAll();
+    }
+
+    @Override
+    public long countDomainData() {
+        return this.countDomainData(null);
+    }
+
+    @Override
+    public long countDomainData(@Nullable Specification<T> spec) {
+        return count(spec);
     }
 
     private Specification<T> addSoftDeleteCondition(Specification<T> originSpecification) {
@@ -73,15 +83,5 @@ public class SimpleExtendedJpaRepository<T, ID extends Serializable> extends Sim
 
             return query.where(cb.and(predicates.toArray(new Predicate[0]))).getGroupRestriction();
         };
-    }
-
-    @Override
-    public long countDomainData() {
-        return this.countDomainData(null);
-    }
-
-    @Override
-    public long countDomainData(@Nullable Specification<T> spec) {
-        return count(spec);
     }
 }
