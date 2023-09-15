@@ -15,4 +15,8 @@ public interface ExtendedJpaRepository<T, ID extends Serializable> extends JpaRe
     List<T> readAllDomainData();
 
     List<T> readAllDomainData(@Nullable Specification<T> spec);
+
+    long countDomainData();
+
+    long countDomainData(@Nullable Specification<T> spec);
 }
